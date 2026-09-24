@@ -83,7 +83,10 @@ const server = http.createServer(async (request, response) => {
     if (fileName.includes('..')) return sendJson(response, 400, { error: '非法路径' });
     const file = await fs.readFile(path.join(root, fileName));
     const contentType = fileName.endsWith('.html') ? 'text/html; charset=utf-8' : 'application/octet-stream';
-    response.writeHead(200, { 'Content-Type': contentType });
+    response.writeHead(200, {
+      'Content-Type': contentType,
+      'Cache-Control': 'no-store, no-cache, must-revalidate'
+    });
     response.end(file);
   } catch (error) {
     if (error.code === 'ENOENT') return sendJson(response, 404, { error: '页面不存在' });
@@ -92,4 +95,4 @@ const server = http.createServer(async (request, response) => {
   }
 });
 
-server.listen(port, () => console.log(`Bycycle server running at http://localhost:${port}`));
+server.listen(port, '0.0.0.0', () => console.log(`Bycycle server running at http://localhost:${port}`));
