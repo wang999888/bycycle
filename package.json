@@ -1,7 +1,0 @@
-{
-  "name": "bycycle-site",
-  "private": true,
-  "scripts": {
-    "start": "node server.js"
-  }
-}
