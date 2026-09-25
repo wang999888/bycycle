@@ -26,6 +26,13 @@ function doPost(event) {
     return jsonResponse([]);
   }
 
+  if (payload.action === 'delete') {
+    const rowNumber = records.findIndex(row => String(row[0]) === String(payload.id));
+    if (rowNumber < 1) return jsonResponse({ error: '记录不存在' });
+    sheet.deleteRow(rowNumber + 1);
+    return jsonResponse({ id: payload.id, deleted: true });
+  }
+
   if (payload.action === 'update') {
     const rowNumber = records.findIndex(row => String(row[0]) === String(payload.record.id));
     if (rowNumber < 1) return jsonResponse({ error: '记录不存在' });
